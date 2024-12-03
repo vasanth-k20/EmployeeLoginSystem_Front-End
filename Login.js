@@ -1,9 +1,9 @@
 function Login() {
-    const UserId = document.getElementById('value').value;
+    const EmailID = document.getElementById('Email').value;
     const password = document.getElementById('password').value;
 
     const data = {
-        UserID: UserId,
+        Email: EmailID,
         Password: password
     };
 
@@ -26,7 +26,7 @@ function Login() {
         return response.text();
     })
     .then(message => {
-        window.location.href = `Dashboard.html?value=${encodeURIComponent(UserId)}`;
+        window.location.href = `Dashboard.html?value=${encodeURIComponent(EmailID)}`;
         
     })
     

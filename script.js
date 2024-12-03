@@ -6,9 +6,9 @@ function myFunction()
 {
 console.log("Hello")
     const params1 = new URLSearchParams(window.location.search);
-    const UserID = params1.get('value'); 
-console.log(UserID);
-    RetriveUserName(UserID)
+    const Email = params1.get('value'); 
+console.log(Email);
+    RetriveUserName(Email)
     const currentDate = new Date();
 console.log(currentDate)
 console.log(currentDate.toLocaleDateString()); 
@@ -17,9 +17,9 @@ console.log(ResDate)
 }
 
 // Retrieve the UserName through UserID
-function RetriveUserName(UserID) {
+function RetriveUserName(Email) {
     const data = {
-        UserID: UserID
+        Email: Email
     };
     fetch("https://localhost:7195/api/Users/RetriveUserName", {
         method: "POST",
@@ -188,6 +188,7 @@ function dbstore(ResCheckIn,ResCheckOut,WorkingHours,breaktime){
         return response.text();
     })
     .then(message => {
+        document.getElementById("pa").innerHTML=message;
     })
     .catch(error => {
         alert(error);
