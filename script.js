@@ -6,9 +6,16 @@ function myFunction()
 {
 console.log("Hello")
     const params1 = new URLSearchParams(window.location.search);
+<<<<<<< HEAD
+    const UserID = params1.get('value'); 
+console.log(UserID);
+    RetriveUserName(UserID)
+
+=======
     const Email = params1.get('value'); 
 console.log(Email);
     RetriveUserName(Email)
+>>>>>>> 300dd86df6b11e2056d7f43bba1f592b29dbfd78
     const currentDate = new Date();
 console.log(currentDate)
 console.log(currentDate.toLocaleDateString()); 
@@ -21,6 +28,9 @@ function RetriveUserName(Email) {
     const data = {
         Email: Email
     };
+
+    
+
     fetch("https://localhost:7195/api/Users/RetriveUserName", {
         method: "POST",
         headers: {
@@ -39,7 +49,14 @@ function RetriveUserName(Email) {
     .then(message => {
         // Update the global variable
         resUserName = message;
-console.log("Retrieve UserName Through Email: " + resUserName);
+     
+        console.log("Retrieve UserName Through Email: " + message);
+        console.log("Retrieve UserName Through Email: " + resUserName);
+
+
+    fetchAttendanceData(message)
+
+
 document.getElementById("UserName").innerHTML= resUserName;
     })
     .catch(error => {
@@ -220,6 +237,7 @@ function calculateInBetweenTime(lastOutTimeStr, secondInTimeStr) {
 }
 
 
+<<<<<<< HEAD
 function WorkingHoursCalculate(){
 
     const localDate = new Date(ResDate);
@@ -252,4 +270,56 @@ function WorkingHoursCalculate(){
     .catch(error => {
         alert(error);
     });
+=======
+async function fetchAttendanceData(username) {
+    try {
+        
+        const response = await fetch(`https://localhost:7195/api/Status/GetAttendanceSummary?username=${encodeURIComponent(username)}`);
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        // Update the chart with the fetched data
+        const attendanceData = {
+            labels: ["Days Present", "Days Absent"],
+            datasets: [{
+                label: 'Attendance Summary',
+                data: [data.daysPresent, data.daysAbsent], // Data from API
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        // Create the chart
+        const ctx = document.getElementById('attendanceChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: attendanceData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        enabled: true,
+                    }
+                }
+            }
+        });
+    } catch (error) {
+        console.error("Failed to fetch attendance data:", error);
+    }
+>>>>>>> 229ab8c72e12c79f1b2199c8ef5266038c87fa09
 }

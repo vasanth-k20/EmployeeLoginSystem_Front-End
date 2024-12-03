@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Check-In/Check-Out</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         #timer { font-size: 1.5em; margin: 20px 0; }
         #status { margin: 10px 0; font-size: 1.2em; }
+        #attendanceChart {
+            max-width: 500px; /* Adjust this to control the chart size */
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
@@ -16,8 +21,17 @@
     <button id="actionButton" onclick="toggleCheckInOut()">Check-In</button>
     <div id="timer">00:00</div>
 
+<<<<<<< HEAD
+    <h2>Attendance Summary</h2>
+    <div id="attendanceChartContainer">
+        <canvas id="attendanceChart"></canvas>
+    </div>
+
+=======
 
     <h4 id="pa"></h4>
+>>>>>>> 300dd86df6b11e2056d7f43bba1f592b29dbfd78
     <script src="script.js"></script>
+    
 </body>
 </html>

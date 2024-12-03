@@ -35,6 +35,3 @@ function Login() {
          document.getElementById("message").textContent = error;
     });
 }
-
-
-
