@@ -139,6 +139,7 @@ function toggleCheckInOut() {
         checkOutTime = new Date();
         actionButton.textContent = "Check-In";
          ResCheckOut = `${getTimeOnly(checkOutTime)}`
+         WorkingHoursCalculate()
          console.log(ResCheckOut)
 
         //Working Hours Calculation
@@ -162,9 +163,15 @@ setInterval(() => {
 }, 60000);
 
 function dbstore(ResCheckIn,ResCheckOut,WorkingHours,breaktime){
+    
+    const localDate = new Date(ResDate);
+        const formattedDate = localDate.toLocaleDateString('en-CA'); // Format as YYYY-MM-DD
+        console.log(formattedDate);
+
+
     const data = {
         Username : resUserName,
-        Date : new Date(ResDate).toISOString().slice(0, 10),
+        Date : formattedDate,
         CheckIn : ResCheckIn,
         CheckOut : ResCheckOut,
         WorkingHours : WorkingHours,
@@ -188,7 +195,7 @@ function dbstore(ResCheckIn,ResCheckOut,WorkingHours,breaktime){
         return response.text();
     })
     .then(message => {
-        document.getElementById("pa").innerHTML=message;
+      
     })
     .catch(error => {
         alert(error);
@@ -210,4 +217,39 @@ function calculateInBetweenTime(lastOutTimeStr, secondInTimeStr) {
     // Format the time difference as HH:MM:SS
     const formattedTime = formatTime(difference);
     return formattedTime;
+}
+
+
+function WorkingHoursCalculate(){
+
+    const localDate = new Date(ResDate);
+    const formattedDate = localDate.toLocaleDateString('en-CA'); // Format as YYYY-MM-DD
+    console.log(formattedDate);
+
+    const data = {
+        Date : formattedDate
+    };
+
+    console.log(data)
+    fetch("https://localhost:7195/api/Status/WorkingHoursCalculate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(errorMessage => {
+                throw new Error(errorMessage || "Network response was not ok");
+            });
+        }
+        return response.text();
+    })
+    .then(message => {
+        document.getElementById("pa").innerHTML=message;
+    })
+    .catch(error => {
+        alert(error);
+    });
 }
