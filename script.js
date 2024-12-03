@@ -6,10 +6,16 @@ function myFunction()
 {
 console.log("Hello")
     const params1 = new URLSearchParams(window.location.search);
+<<<<<<< HEAD
     const UserID = params1.get('value'); 
 console.log(UserID);
     RetriveUserName(UserID)
 
+=======
+    const Email = params1.get('value'); 
+console.log(Email);
+    RetriveUserName(Email)
+>>>>>>> 300dd86df6b11e2056d7f43bba1f592b29dbfd78
     const currentDate = new Date();
 console.log(currentDate)
 console.log(currentDate.toLocaleDateString()); 
@@ -18,9 +24,9 @@ console.log(ResDate)
 }
 
 // Retrieve the UserName through UserID
-function RetriveUserName(UserID) {
+function RetriveUserName(Email) {
     const data = {
-        UserID: UserID
+        Email: Email
     };
 
     
@@ -199,6 +205,7 @@ function dbstore(ResCheckIn,ResCheckOut,WorkingHours,breaktime){
         return response.text();
     })
     .then(message => {
+        document.getElementById("pa").innerHTML=message;
     })
     .catch(error => {
         alert(error);
