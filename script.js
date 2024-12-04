@@ -50,7 +50,6 @@ function RetriveUserName(Email) {
         // Update the global variable
         resUserName = message;
      
-        console.log("Retrieve UserName Through Email: " + message);
         console.log("Retrieve UserName Through Email: " + resUserName);
 
 
@@ -64,11 +63,12 @@ document.getElementById("UserName").innerHTML= resUserName;
     });
 }
 
+
+let resUserName = null;
 var WorkingHours;
 var ResCheckOut
 var currentDate;
 var ResDate;
-let resUserName = null;
 let checkInTime = null;
 let checkOutTime = null;
 let timerInterval = null;
@@ -77,8 +77,18 @@ let checkInCount = 0;
 let isTimerRunning = false;
 let totalElapsedTime = 0;
 var ResCheckIn;
-var dbstoreconditioncheck = false;
 var breaktime;
+/*Temp variable to store the CheckIn Time Properly*/
+var dbstoreconditioncheck = false;
+var tempcheckin;
+var tempcheckin1;
+var tempcheckincondition = true;
+var tempcheckindbstore = true;
+/* End of Temp variable to store the CheckIn Time Properly*/
+
+
+
+
 
 // Function to format the time as HH:MM:SS
 function formatTime(seconds) {
@@ -111,33 +121,69 @@ function getTimeOnly(date) {
     return `${hours}:${minutes}:${seconds}`;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 function toggleCheckInOut() {
     if (checkInCount >= 5) { 
         alert('You have reached the maximum number of check-ins/check-outs for today.');
         return;
     }
+
     const actionButton = document.getElementById('actionButton');
 
     if (!isTimerRunning) {   
         if (checkInTime === null) {
             checkInTime = new Date();
+
         }
    
     // Check-In action
         actionButton.textContent = "Check-Out";
         ResCheckIn = `${getTimeOnly(checkInTime)}`;
         console.log(ResCheckIn)
+
+
+        if(tempcheckincondition){
+            tempcheckin = ResCheckIn;
+            tempcheckincondition = false
+        }
+        else{
+            tempcheckin1 = ResCheckIn;
+        }
+
         document.getElementById("pa").innerHTML="";
 
 
     //For Finding the BreakTime
         console.log(dbstoreconditioncheck)
+
         if(dbstoreconditioncheck)    
         {  
             breaktime =  calculateInBetweenTime(ResCheckIn,ResCheckOut)
-            dbstore(ResCheckIn,ResCheckOut,WorkingHours, breaktime);
+
+            if(tempcheckindbstore){
+                dbstore(tempcheckin,ResCheckOut,WorkingHours, breaktime);
+                tempcheckindbstore = false
+	tempcheckincondition = true
+            }
+            else{
+                dbstore(tempcheckin1,ResCheckOut,WorkingHours, breaktime);
+	tempcheckindbstore =true
+            }
+           
         }
         dbstoreconditioncheck = true;
+
     // logic End
 
         checkInTime = null;
@@ -158,6 +204,7 @@ function toggleCheckInOut() {
         actionButton.textContent = "Check-In";
          ResCheckOut = `${getTimeOnly(checkOutTime)}`
          WorkingHoursCalculate()
+        
          console.log(ResCheckOut)
 
         //Working Hours Calculation
@@ -172,10 +219,28 @@ function toggleCheckInOut() {
     } 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Set an interval to check every minute for the 12 PM reset
 setInterval(() => {
     const now = new Date();
-    if (now.getHours() === 12 && now.getMinutes() === 0) {
+    if (now.getHours() === 0 && now.getMinutes() === 0) {
         resetTimer();
     }
 }, 60000);
@@ -238,6 +303,9 @@ function calculateInBetweenTime(lastOutTimeStr, secondInTimeStr) {
 }
 
 
+
+
+
 //<<<<<<< HEAD
 function WorkingHoursCalculate(){
 
@@ -246,7 +314,9 @@ function WorkingHoursCalculate(){
     console.log(formattedDate);
 
     const data = {
+        Username : resUserName,
         Date : formattedDate
+
     };
 
     console.log(data)
@@ -272,6 +342,49 @@ function WorkingHoursCalculate(){
         alert(error);
     });
 }
+
+
+function WorkingStatusStore() {
+    const date = document.getElementById('dateSelect').value;
+    const localDate = new Date(date);
+    const formattedDate = localDate.toLocaleDateString('en-CA'); // Format as YYYY-MM-DD
+
+    const data = {
+        Username: resUserName, // Ensure resUserName is defined
+        Date: formattedDate
+    };
+
+    console.log("Request Data:", data);
+
+    fetch("https://localhost:7195/api/Status/WorkingHoursStatus", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(errorMessage => {
+                throw new Error(errorMessage || "Network response was not ok");
+            });
+        }
+        return response.json(); // Parse as JSON
+    })
+    .then(data => {
+        console.log("Response Data:", data);
+
+        // Wrap the object in an array
+        const dataArray = Array.isArray(data) ? data : [data];
+
+        populateTable(dataArray); // Pass the array to populateTable
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Failed to fetch attendance data. Check the console for details.");
+    });
+}
+
 //=======
 async function fetchAttendanceData(username) {
     try {
@@ -325,3 +438,58 @@ async function fetchAttendanceData(username) {
     }
 //>>>>>>> 229ab8c72e12c79f1b2199c8ef5266038c87fa09
 }
+
+
+async function populateTable(data) {
+    const tableBody = document.getElementById("attendanceTable").querySelector("tbody");
+    tableBody.innerHTML = ""; // Clear existing rows
+
+    let serial_number = 1;
+
+    // Ensure data is an array
+    if (!Array.isArray(data)) {
+        console.error("Expected an array, got:", data);
+        return;
+    }
+
+    // Iterate through the data
+    for (let item of data) {
+        const row = document.createElement("tr");
+
+        // Serial Number
+        const idCell = document.createElement("td");
+        idCell.textContent = serial_number++;
+        row.appendChild(idCell);
+
+        // Date
+        const date = document.createElement("td");
+        date.textContent = item.date || "N/A";
+        row.appendChild(date);
+
+        // First Check-In
+        const firstCheckIn = document.createElement("td");
+        firstCheckIn.textContent = item.firstCheckIn || "N/A";
+        row.appendChild(firstCheckIn);
+
+        // Last Check-Out
+        const lastCheckOut = document.createElement("td");
+        lastCheckOut.textContent = item.lastCheckOut || "N/A";
+        row.appendChild(lastCheckOut);
+
+        // Working Hours
+        const workingHours = document.createElement("td");
+        workingHours.textContent = item.workingHours || "N/A";
+        row.appendChild(workingHours);
+
+        // Status
+        const status = document.createElement("td");
+        status.textContent = item.status || "N/A";
+        row.appendChild(status);
+
+        // Append the row to the table body
+        tableBody.appendChild(row);
+    }
+}
+
+
+

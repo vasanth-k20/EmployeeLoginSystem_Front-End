@@ -12,6 +12,19 @@
             max-width: 500px; /* Adjust this to control the chart size */
             margin: 0 auto;
         }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
 <body>
@@ -30,6 +43,32 @@
 
 
     <h4 id="pa"></h4>
+
+
+
+    <div class="form-group">
+        <label for="dateSelect">Select Date:</label>
+        <input type="date" id="dateSelect" class="form-control custom-date-input" style="width: 150px;">
+        <button onclick = WorkingStatusStore()>Ok</button>
+    </div>
+
+    <h1>Attendance Details</h1>
+    <table id="attendanceTable">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Date</th>
+                <th>First Check-In</th>
+                <th>Last Check-Out</th>
+                <th>Status</th>
+                <th>Working Hours</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Rows will be populated dynamically -->
+        </tbody>
+    </table>
 
     <script src="script.js"></script>
     
