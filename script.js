@@ -6,16 +6,16 @@ function myFunction()
 {
 console.log("Hello")
     const params1 = new URLSearchParams(window.location.search);
-<<<<<<< HEAD
+//<<<<<<< HEAD
     const UserID = params1.get('value'); 
 console.log(UserID);
     RetriveUserName(UserID)
 
-=======
+//=======
     const Email = params1.get('value'); 
 console.log(Email);
     RetriveUserName(Email)
->>>>>>> 300dd86df6b11e2056d7f43bba1f592b29dbfd78
+//>>>>>>> 300dd86df6b11e2056d7f43bba1f592b29dbfd78
     const currentDate = new Date();
 console.log(currentDate)
 console.log(currentDate.toLocaleDateString()); 
@@ -112,7 +112,7 @@ function getTimeOnly(date) {
 }
 
 function toggleCheckInOut() {
-    if (checkInCount >= 5) {
+    if (checkInCount >= 5) { 
         alert('You have reached the maximum number of check-ins/check-outs for today.');
         return;
     }
@@ -127,6 +127,7 @@ function toggleCheckInOut() {
         actionButton.textContent = "Check-Out";
         ResCheckIn = `${getTimeOnly(checkInTime)}`;
         console.log(ResCheckIn)
+        document.getElementById("pa").innerHTML="";
 
 
     //For Finding the BreakTime
@@ -237,7 +238,7 @@ function calculateInBetweenTime(lastOutTimeStr, secondInTimeStr) {
 }
 
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 function WorkingHoursCalculate(){
 
     const localDate = new Date(ResDate);
@@ -270,7 +271,8 @@ function WorkingHoursCalculate(){
     .catch(error => {
         alert(error);
     });
-=======
+}
+//=======
 async function fetchAttendanceData(username) {
     try {
         
@@ -321,5 +323,5 @@ async function fetchAttendanceData(username) {
     } catch (error) {
         console.error("Failed to fetch attendance data:", error);
     }
->>>>>>> 229ab8c72e12c79f1b2199c8ef5266038c87fa09
+//>>>>>>> 229ab8c72e12c79f1b2199c8ef5266038c87fa09
 }
