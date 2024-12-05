@@ -3,6 +3,7 @@
     "@fullcalendar/core": "^6.1.15",
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/timegrid": "^6.1.15",
-    "daypilot-pro-vue": "^0.0.0"
+    "daypilot-pro-vue": "^0.0.0",
+    "lightpick": "^1.6.2"
   }
 }

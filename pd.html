@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check-in/Check-out Clock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 20%;
+        }
+        #clock {
+            font-size: 48px;
+            font-weight: bold;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        button.checkout {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div id="clock">00:00:00</div>
+    <button id="toggle">Check-in</button>
+
+
+
+    <input type="text" name="birthday" value="10/24/1984" />
+
+<script>
+$(function() {
+  $('input[name="birthday"]').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: true,
+    minYear: 1901,
+    maxYear: parseInt(moment().format('YYYY'),10)
+  }, function(start, end, label) {
+    var years = moment().diff(start, 'years');
+    alert("You are " + years + " years old!");
+  });
+});
+</script>
+    <!-- <script>
+        const clock = document.getElementById("clock");
+        const toggleButton = document.getElementById("toggle");
+
+        let intervalId = null;
+        let isRunning = localStorage.getItem("isRunning") === "true";
+        
+        let startTime = parseInt(localStorage.getItem("clockStartTime")) || null;
+        let elapsed = parseInt(localStorage.getItem("checkoutTime")) || 0;
+
+        // Format time in hh:mm:ss
+        const formatTime = (ms) => {
+            const totalSeconds = Math.floor(ms / 1000);
+            const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+            const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+            const seconds = String(totalSeconds % 60).padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
+        };
+
+        // Update the clock display
+        const updateClock = () => {
+            elapsed = Date.now() - startTime;
+            clock.innerText = formatTime(elapsed);
+        };
+
+        // Start the clock
+        const startClock = () => {
+            startTime = Date.now() - elapsed;
+            localStorage.setItem("clockStartTime", startTime);
+            localStorage.setItem("isRunning", true);
+            intervalId = setInterval(updateClock, 1000);
+            toggleButton.innerText = "Check-out";
+            toggleButton.classList.add("checkout");
+        };
+
+        // Stop the clock
+        const stopClock = () => {
+            clearInterval(intervalId);
+            elapsed = Date.now() - startTime;
+            localStorage.setItem("checkoutTime", elapsed);
+            localStorage.setItem("isRunning", false);
+            clock.innerText = formatTime(elapsed);
+            toggleButton.innerText = "Check-in";
+            toggleButton.classList.remove("checkout");
+        };
+
+        // Toggle between start and stop
+        toggleButton.addEventListener("click", () => {
+            isRunning ? stopClock() : startClock();
+            isRunning = !isRunning;
+        });
+
+        // Initialize on page load
+        if (isRunning) {
+            intervalId = setInterval(updateClock, 1000);
+            toggleButton.innerText = "Check-out";
+            toggleButton.classList.add("checkout");
+        } else {
+            clock.innerText = formatTime(elapsed);
+        }
+    </script> -->
+</body>
+</html>

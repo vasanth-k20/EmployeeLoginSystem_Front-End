@@ -144,7 +144,6 @@ function toggleCheckInOut() {
     if (!isTimerRunning) {   
         if (checkInTime === null) {
             checkInTime = new Date();
-
         }
    
     // Check-In action
@@ -153,36 +152,37 @@ function toggleCheckInOut() {
         console.log(ResCheckIn)
 
 
-        if(tempcheckincondition){
-            tempcheckin = ResCheckIn;
-            tempcheckincondition = false
-        }
-        else{
-            tempcheckin1 = ResCheckIn;
-        }
+        // if(tempcheckincondition){
+        //     tempcheckin = ResCheckIn;
+        //     tempcheckincondition = false
+        // }
+        // else{
+        //     tempcheckin1 = ResCheckIn;
+        // }
 
         document.getElementById("pa").innerHTML="";
 
+       
 
     //For Finding the BreakTime
-        console.log(dbstoreconditioncheck)
+        // console.log(dbstoreconditioncheck)
 
-        if(dbstoreconditioncheck)    
-        {  
-            breaktime =  calculateInBetweenTime(ResCheckIn,ResCheckOut)
+    //     if(dbstoreconditioncheck)    
+    //     {  
+    //         breaktime =  calculateInBetweenTime(ResCheckIn,ResCheckOut)
 
-            if(tempcheckindbstore){
-                dbstore(tempcheckin,ResCheckOut,WorkingHours, breaktime);
-                tempcheckindbstore = false
-	tempcheckincondition = true
-            }
-            else{
-                dbstore(tempcheckin1,ResCheckOut,WorkingHours, breaktime);
-	tempcheckindbstore =true
-            }
+    //         if(tempcheckindbstore){
+    //             dbstore(tempcheckin,ResCheckOut,WorkingHours, breaktime);
+    //             tempcheckindbstore = false
+	// tempcheckincondition = true
+    //         }
+    //         else{
+    //             dbstore(tempcheckin1,ResCheckOut,WorkingHours, breaktime);
+	// tempcheckindbstore =true
+    //         }
            
-        }
-        dbstoreconditioncheck = true;
+    //     }
+    //     dbstoreconditioncheck = true;
 
     // logic End
 
@@ -210,6 +210,7 @@ function toggleCheckInOut() {
         //Working Hours Calculation
          WorkingHours = `${formatTime(totalElapsedTime + timeElapsed)}`
 
+         dbstore(ResCheckIn,ResCheckOut,WorkingHours, breaktime);
 
         isTimerRunning = false;
         clearInterval(timerInterval);
@@ -304,9 +305,6 @@ function calculateInBetweenTime(lastOutTimeStr, secondInTimeStr) {
 
 
 
-
-
-//<<<<<<< HEAD
 function WorkingHoursCalculate(){
 
     const localDate = new Date(ResDate);
@@ -385,7 +383,7 @@ function WorkingStatusStore() {
     });
 }
 
-//=======
+
 async function fetchAttendanceData(username) {
     try {
         
