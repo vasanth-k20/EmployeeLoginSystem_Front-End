@@ -34,7 +34,7 @@ function Register(event) {
         document.getElementById("message").textContent = message;
         document.getElementById("form").reset();  
 
-        window.location.href = "Login.html";
+        window.location.href = "/index.html";
         // window.location.href = `Login.html?value=${encodeURIComponent(username)}`;
        
     })

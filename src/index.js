@@ -26,7 +26,7 @@ function Login() {
         return response.text();
     })
     .then(message => {
-        window.location.href = `Dashboard.html?value=${encodeURIComponent(EmailID)}`;
+        window.location.href = `./src/Dashboard.html?value=${encodeURIComponent(EmailID)}`;
         
     })
     
