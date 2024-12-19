@@ -27,7 +27,7 @@ const formattedEnd = `${end.getFullYear()}-${(end.getMonth() + 1)
 // Global variables to hold email and username
 window.onload = function () {
     myFunction();
-    //localStorage.clear();
+    // localStorage.clear();
 };
 
 function myFunction() {
@@ -428,7 +428,7 @@ function StatusCheck() {
         });
 }
 
-//Get_the_Workstatus_Details_using_Date
+//Get_the_Workstatus_Details_using_Date for table
 function Get_the_Workstatus_Details_using_Date() {
 
     const date = document.getElementById('dateRange').value;
@@ -548,24 +548,6 @@ function getDefaultDateRange() {
     return { start: startOfRange, end: endOfRange };
 }
 
-// Example: Disable the CL date in the date picker
-function disableCLDate(clDate, datePickerElement) {
-    if (!clDate) return;
-
-    const datePicker = document.querySelector(datePickerElement);
-    const clDateString = new Date(clDate).toISOString().split("T")[0];
-
-    datePicker.addEventListener("change", (event) => {
-        const selectedStartDate = event.target.value;
-
-        // Disable the CL date if outside the range
-        if (selectedStartDate > clDateString) {
-            // Logic to prevent CL from being displayed in the chart
-            fetchAttendanceData(username, selectedStartDate, endDate);
-        }
-    });
-}
-
 // Function to fetch and update attendance data
 async function fetchAttendanceData(username, startDate, endDate) {
     try {
@@ -581,28 +563,21 @@ async function fetchAttendanceData(username, startDate, endDate) {
 
         const data = await response.json();
 
-        // Check if CL is included in the date range
-        const isCLIncluded = data.casualLeaveDays > 0;
-
         // Prepare data for the chart
         const attendanceData = {
-            labels: ["Days Present", ...(isCLIncluded ? ["Casual Leave"] : []), "Days Absent"],
+            labels: ["Days Present", "Casual Leave", "Days Absent"],
             datasets: [
                 {
                     label: "Attendance",
-                    data: [
-                        data.daysPresent,
-                        ...(isCLIncluded ? [data.casualLeaveDays] : []),
-                        data.daysAbsent,
-                    ],
+                    data: [data.daysPresent, data.casualLeaveDays, data.daysAbsent],
                     backgroundColor: [
                         "rgba(75, 192, 192, 0.2)", // Present
-                        ...(isCLIncluded ? ["rgba(255, 206, 86, 0.2)"] : []), // CL
+                        "rgba(255, 206, 86, 0.2)", // CL
                         "rgba(255, 99, 132, 0.2)", // Absent
                     ],
                     borderColor: [
                         "rgba(75, 192, 192, 1)", // Present
-                        ...(isCLIncluded ? ["rgba(255, 206, 86, 1)"] : []), // CL
+                        "rgba(255, 206, 86, 1)", // CL
                         "rgba(255, 99, 132, 1)", // Absent
                     ],
                     borderWidth: 1,
