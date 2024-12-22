@@ -27,7 +27,7 @@ const formattedEnd = `${end.getFullYear()}-${(end.getMonth() + 1)
 // Global variables to hold email and username
 window.onload = function () {
     myFunction();
-    //localStorage.clear();
+    // localStorage.clear();
 };
 
 function myFunction() {
@@ -565,19 +565,19 @@ async function fetchAttendanceData(username, startDate, endDate) {
 
         // Prepare data for the chart
         const attendanceData = {
-            labels: ["Days Present", "Casual Leave", "Days Absent"],
+            labels: ["Present", "CL", "LOP"],
             datasets: [
                 {
                     label: "Attendance",
                     data: [data.daysPresent, data.casualLeaveDays, data.daysAbsent],
                     backgroundColor: [
                         "rgba(75, 192, 192, 0.2)", // Present
-                        "rgba(255, 206, 86, 0.2)", // CL
+                        "rgba(141, 86, 255, 0.2)", // CL
                         "rgba(255, 99, 132, 0.2)", // Absent
                     ],
                     borderColor: [
                         "rgba(75, 192, 192, 1)", // Present
-                        "rgba(255, 206, 86, 1)", // CL
+                        "rgb(141, 93, 254)", // CL
                         "rgba(255, 99, 132, 1)", // Absent
                     ],
                     borderWidth: 1,
