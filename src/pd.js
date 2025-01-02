@@ -3,7 +3,7 @@ let userEmail = null; // Global variable to store user email
 var WorkingHours;
 var ResCheckOut;
 var ResDate;
-let checkInTime = null;                                                           //18-12-2024
+let checkInTime = null;                                                           //02-01-2025
 let checkOutTime = null;
 let timerInterval = null;
 let timeElapsed = 0;
@@ -428,7 +428,7 @@ function StatusCheck() {
         });
 }
 
-//Get_the_Workstatus_Details_using_Date
+//Get_the_Workstatus_Details_using_Date for table
 function Get_the_Workstatus_Details_using_Date() {
 
     const date = document.getElementById('dateRange').value;
